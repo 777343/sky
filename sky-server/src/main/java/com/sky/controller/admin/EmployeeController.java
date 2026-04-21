@@ -118,4 +118,24 @@ public class EmployeeController {
         employeeService.status(status,id);
         return Result.success();
     }
+
+    /*
+    修改员工信息一：信息回显，根据ID查询员工信息
+    * */
+    @GetMapping("/{id}")
+    public Result<Employee> getById(@PathVariable Long id){
+
+        Employee employee=employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    /*
+    修改员工信息二：具体修改
+    * */
+    @PutMapping
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
 }
