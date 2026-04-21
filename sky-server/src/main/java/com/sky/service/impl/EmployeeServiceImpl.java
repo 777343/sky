@@ -118,5 +118,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         return pageResult;
     }
 
+    /*
+    启用禁用员工账号
+    * */
+    @Override
+    public void status(Integer status, Long id) {
+
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+        //用动态更新方法
+        employeeMapper.update(employee);
+    }
+
 
 }

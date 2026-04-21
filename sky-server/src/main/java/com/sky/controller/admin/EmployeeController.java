@@ -1,6 +1,8 @@
 package com.sky.controller.admin;
 
+import com.sky.constant.AccountConstant;
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
@@ -101,5 +103,19 @@ public class EmployeeController {
 
         PageResult pageResult=employeeService.page(employeePageQueryDTO);
         return Result.success(pageResult);
+    }
+
+    /*
+    启用禁用员工账号
+    * */
+    @PostMapping("/status/{status}")
+    public Result status(@PathVariable Integer status,Long id){
+
+        if(BaseContext.getCurrentId()!= AccountConstant.ACCOUNT_ID){
+            return Result.error("非管理员，禁止操作！");
+        }
+
+        employeeService.status(status,id);
+        return Result.success();
     }
 }
