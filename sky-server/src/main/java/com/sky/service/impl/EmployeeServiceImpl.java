@@ -7,6 +7,7 @@ import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
+import com.sky.dto.EmployeeEditPassword;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
@@ -85,13 +86,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         //设置账号初始默认密码
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
 
-        //设置创建设更新时间
+       /* 设置创建设更新时间
         employee.setCreateTime(LocalDateTime.now());
         employee.setUpdateTime(LocalDateTime.now());
 
-        //设置创建人和更新人
+        设置创建人和更新人
         employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(BaseContext.getCurrentId());*/
 
         employeeMapper.insert(employee);
     }
@@ -150,8 +151,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee employee=new Employee();
         BeanUtils.copyProperties(employeeDTO,employee);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        /*employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());*/
+
+        employeeMapper.update(employee);
+    }
+
+    /*
+   修改密码
+   * */
+    @Override
+    public void editPassword(EmployeeEditPassword editPassword) {
+
+        Employee employee=new Employee();
+        employee.setId(BaseContext.getCurrentId());
+        String newPassword = DigestUtils.md5DigestAsHex(editPassword.getNewPassword().getBytes());
+        employee.setPassword(newPassword);
+
+       /* employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());*/
+
         employeeMapper.update(employee);
     }
 
